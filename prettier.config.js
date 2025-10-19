@@ -1,0 +1,28 @@
+export default {
+  semi: true,
+  singleQuote: true,
+  printWidth: 120,
+  trailingComma: 'es5',
+  tabWidth: 2,
+  endOfLine: 'auto',
+  vueIndentScriptAndStyle: true,
+  htmlWhitespaceSensitivity: 'ignore',
+  proseWrap: 'preserve',
+  singleAttributePerLine: true,
+  plugins: ['@trivago/prettier-plugin-sort-imports'],
+
+  importOrder: [
+    '^vue$',
+    '^@vue/(.*)$',
+    '^vue-router',
+    '^vue-router/(.*)$',
+    '<THIRD_PARTY_MODULES>',
+    '^@app/(.*)$',
+    '^@views/(.*)$',
+    '^@widgets/(.*)$',
+    '^@features/(.*)$',
+    '^@entities/(.*)$',
+    '^@shared/(.*)$',
+    '^[./].*\\.(css|scss|sass|less)$',
+  ],
+};
