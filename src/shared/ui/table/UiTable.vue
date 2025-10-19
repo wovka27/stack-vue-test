@@ -69,27 +69,26 @@
     sort.value = { key: colKey, direction: newDirection };
   };
 
-  watch(
-    sort,
-    (s) => {
-      router.push({
-        query: QueryHelper.toQueryRecord({
-          ...route.query,
-          ...(s.direction !== null && {
-            ...QueryHelper.toQueryRecord({ sort: { [s.key]: s.direction } } as unknown as Params),
-          }),
-        }),
-      });
-    },
-    { immediate: true }
-  );
+  const setQuerySort = (s: SortState) => {
+    const query = QueryHelper.flatten(route.query);
+
+    if (s.direction) {
+      query.sort = { [s.key]: s.direction };
+    } else {
+      delete query.sort;
+    }
+
+    return query;
+  };
+
+  watch(sort, (s) => router.push({ query: QueryHelper.toQueryRecord(setQuerySort(s)) }), { immediate: true });
 
   watch(
     () => route.query,
     (s) => {
       const result = QueryHelper.flatten(s as unknown as Params) as unknown as { sort: SortState };
 
-      Object.entries(result.sort).forEach(([key, value]) => {
+      Object.entries(result.sort ?? {}).forEach(([key, value]) => {
         sort.value = { key, direction: value };
       });
     },
